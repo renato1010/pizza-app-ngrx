@@ -25,4 +25,49 @@ export class PizzasEffects {
         );
     })
   );
+
+  @Effect()
+  createPizza$ = this.actions$
+    .ofType(pizzaActions.CREATE_PIZZA)
+    .pipe(
+      map((action: pizzaActions.CreatePizza) => action.payload),
+      switchMap(payload =>
+        this.pizzaService
+          .createPizza(payload)
+          .pipe(
+            map(pizza => new pizzaActions.CreatePizzaSuccess(pizza)),
+            catchError(error => of(new pizzaActions.CreatePizzaFail(error)))
+          )
+      )
+    );
+
+  @Effect()
+  updatePizza$ = this.actions$
+    .ofType(pizzaActions.UPDATE_PIZZA)
+    .pipe(
+      map((action: pizzaActions.UpdatePizza) => action.payload),
+      switchMap(payload =>
+        this.pizzaService
+          .updatePizza(payload)
+          .pipe(
+            map(pizza => new pizzaActions.UpdatePizzaSuccess(pizza)),
+            catchError(error => of(new pizzaActions.UpdatePizzaFail(error)))
+          )
+      )
+    );
+
+  @Effect()
+  removePizza$ = this.actions$
+    .ofType(pizzaActions.REMOVE_PIZZA)
+    .pipe(
+      map((action: pizzaActions.RemovePizza) => action.payload),
+      switchMap(payload =>
+        this.pizzaService
+          .removePizza(payload)
+          .pipe(
+            map(() => new pizzaActions.RemovePizzaSuccess(payload)),
+            catchError(error => of(new pizzaActions.RemovePizzaFail(error)))
+          )
+      )
+    );
 }

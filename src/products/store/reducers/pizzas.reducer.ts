@@ -1,6 +1,7 @@
 import * as fromActions from '../actions/pizzas.actions';
 import { Pizza } from '../../models/pizza.model';
 import { LOAD_PIZZAS } from '../actions/pizzas.actions';
+import { stagger } from '@angular/core/src/animation/dsl';
 
 export interface PizzaState {
   entities: { [id: number]: Pizza };
@@ -31,6 +32,28 @@ export function reducer(state = initialState, action: fromActions.PizzasAction):
         { ...state.entities }
       );
       return { ...state, entities, loading: false, loaded: true };
+    }
+    case fromActions.UPDATE_PIZZA_SUCCESS:
+    case fromActions.CREATE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const pizzaEntity = { [pizza.id]: pizza };
+      const entities = { ...state.entities, pizzaEntity };
+      return {
+        ...state,
+        entities,
+        loaded: true,
+        loading: false
+      };
+    }
+    case fromActions.REMOVE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const { [pizza.id]: removed, ...entities } = state.entities;
+      return {
+        ...state,
+        entities,
+        loaded: true,
+        loading: false
+      };
     }
   }
   return state;
