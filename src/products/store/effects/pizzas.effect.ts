@@ -5,10 +5,14 @@ import { Effect, Actions } from '@ngrx/effects';
 import { of } from 'rxjs/observable/of';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
+// access to Store root
+import * as fromRoot from '../../../app/store';
+
 // actions
 import * as pizzaActions from '../actions/pizzas.actions';
 // service
 import * as fromServices from '../../services';
+import { effects } from 'src/products/store';
 
 @Injectable()
 export class PizzasEffects {
@@ -39,6 +43,15 @@ export class PizzasEffects {
             catchError(error => of(new pizzaActions.CreatePizzaFail(error)))
           )
       )
+    );
+
+  // dispatch a re-direct when create pizza
+  @Effect()
+  createPizzaSuccess$ = this.actions$
+    .ofType(pizzaActions.CREATE_PIZZA_SUCCESS)
+    .pipe(
+      map((action: pizzaActions.CreatePizzaSuccess) => action.payload),
+      map(pizza => new fromRoot.Go({ path: ['/products', pizza.id] }))
     );
 
   @Effect()
