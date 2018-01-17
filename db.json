@@ -131,28 +131,6 @@
         }
       ],
       "id": 3
-    },
-    {
-      "name": "my pizza",
-      "toppings": [
-        {
-          "id": 5,
-          "name": "mozzarella"
-        },
-        {
-          "id": 2,
-          "name": "bacon"
-        },
-        {
-          "id": 3,
-          "name": "basil"
-        },
-        {
-          "id": 12,
-          "name": "tomato"
-        }
-      ],
-      "id": 4
     }
   ]
 }
