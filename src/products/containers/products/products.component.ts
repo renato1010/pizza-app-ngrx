@@ -1,10 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Pizza } from '../../models/pizza.model';
 import { Observable } from 'rxjs/Observable';
 import * as fromStore from '../../store';
-import { Object } from 'core-js/library/web/timers';
+import { Pizza } from '../../models/pizza.model';
 
 @Component({
   selector: 'products',
@@ -39,6 +38,5 @@ export class ProductsComponent implements OnInit {
     this.pizzas$ = this.store.select(fromStore.getAllPizzas);
     this.store.dispatch(new fromStore.LoadPizzas());
     this.store.dispatch(new fromStore.LoadToppings());
-
   }
 }

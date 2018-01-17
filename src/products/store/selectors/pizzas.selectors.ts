@@ -5,20 +5,18 @@ import * as fromFeature from '../reducers';
 import * as fromPizzas from '../reducers/pizzas.reducer';
 import * as fromToppings from './toppings.selectors';
 
-import { Pizza } from 'src/products/models/pizza.model';
-import { getToppingsEntities, getSelectedToppings } from 'src/products/store';
+import { Pizza } from '../../models/pizza.model';
 
 export const getPizzaState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.pizzas
 );
 
-export const getPizzasEntities = createSelector(getPizzaState, fromPizzas.getPizzasEntities);
-export const getAllPizzas = createSelector(getPizzasEntities, entities => {
-  return Object.keys(entities).map(id => entities[+id]);
-});
+export const getPizzasEntities = createSelector(
+  getPizzaState,
+  fromPizzas.getPizzasEntities
+);
 
-// select particular pizza
 export const getSelectedPizza = createSelector(
   getPizzasEntities,
   fromRoot.getRouterState,
@@ -29,13 +27,23 @@ export const getSelectedPizza = createSelector(
 
 export const getPizzaVisualised = createSelector(
   getSelectedPizza,
-  fromToppings.getToppingsEntities,
+  fromToppings.getToppingEntities,
   fromToppings.getSelectedToppings,
-  (pizza, toppingsEntities, selectedToppings) => {
-    const toppings = selectedToppings.map(id => toppingsEntities[id]);
+  (pizza, toppingEntities, selectedToppings) => {
+    const toppings = selectedToppings.map(id => toppingEntities[id]);
     return { ...pizza, toppings };
   }
 );
 
-export const getPizzasLoaded = createSelector(getPizzaState, fromPizzas.getPizzasLoaded);
-export const getPizzasLoading = createSelector(getPizzaState, fromPizzas.getPizzasLoading);
+export const getAllPizzas = createSelector(getPizzasEntities, entities => {
+  return Object.keys(entities).map(id => entities[parseInt(id, 10)]);
+});
+
+export const getPizzasLoaded = createSelector(
+  getPizzaState,
+  fromPizzas.getPizzasLoaded
+);
+export const getPizzasLoading = createSelector(
+  getPizzaState,
+  fromPizzas.getPizzasLoading
+);

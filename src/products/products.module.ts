@@ -4,9 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-// import de store module
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
 import { reducers, effects } from './store';
 
 // components
@@ -22,11 +22,15 @@ import * as fromServices from './services';
 export const ROUTES: Routes = [
   {
     path: '',
-    component: fromContainers.ProductsComponent
+    component: fromContainers.ProductsComponent,
   },
   {
     path: 'new',
-    component: fromContainers.ProductItemComponent
+    component: fromContainers.ProductItemComponent,
+  },
+  {
+    path: ':pizzaId',
+    component: fromContainers.ProductItemComponent,
   },
   {
     path: ':pizzaId',
@@ -41,7 +45,7 @@ export const ROUTES: Routes = [
     HttpClientModule,
     RouterModule.forChild(ROUTES),
     StoreModule.forFeature('products', reducers),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],
