@@ -26,18 +26,18 @@ export const ROUTES: Routes = [
   {
     path: '',
     canActivate: [fromGuards.PizzasGuard],
-    component: fromContainers.ProductsComponent,
+    component: fromContainers.ProductsComponent
   },
   {
     path: 'new',
-    canActivate: [fromGuards.PizzasGuard],
-    component: fromContainers.ProductItemComponent,
+    canActivate: [fromGuards.PizzasGuard, fromGuards.ToppingsGuard],
+    component: fromContainers.ProductItemComponent
   },
   {
     path: ':pizzaId',
-    canActivate: [fromGuards.PizzaExistsGuards],
-    component: fromContainers.ProductItemComponent,
-  },
+    canActivate: [fromGuards.PizzaExistsGuards, fromGuards.ToppingsGuard],
+    component: fromContainers.ProductItemComponent
+  }
 ];
 
 @NgModule({
@@ -47,10 +47,10 @@ export const ROUTES: Routes = [
     HttpClientModule,
     RouterModule.forChild(ROUTES),
     StoreModule.forFeature('products', reducers),
-    EffectsModule.forFeature(effects),
+    EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services, ...fromGuards.guards],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  exports: [...fromContainers.containers, ...fromComponents.components],
+  exports: [...fromContainers.containers, ...fromComponents.components]
 })
 export class ProductsModule {}
